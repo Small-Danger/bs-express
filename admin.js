@@ -1,5 +1,5 @@
 // Mot de passe de l'interface d'administration
-const ADMIN_PASSWORD = "123456"; // À changer en production
+const ADMIN_PASSWORD = "BSI2025@"; // À changer en production
 
 // Données de l'application
 let appData = {
