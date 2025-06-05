@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation de Kilos - Casablanca ↔️ Ouagadougou</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    display: ['Poppins', 'sans-serif'],
+                    body: ['Poppins', 'sans-serif'],
+                    mono: ['ui-monospace', 'SFMono-Regular'],
+                    serif: ['ui-serif', 'Georgia'],
+                    heading: ['Poppins', 'sans-serif'],
+                    title: ['Poppins', 'sans-serif'],
+                    logo: ['Poppins', 'sans-serif'],
+                    button: ['Poppins', 'sans-serif'],
+                    input: ['Poppins', 'sans-serif'],
+                    label: ['Poppins', 'sans-serif'],
+                    link: ['Poppins', 'sans-serif'],
+                    nav: ['Poppins', 'sans-serif'],
+                    footer: ['Poppins', 'sans-serif'],
+                    caption: ['Poppins', 'sans-serif'],
+                    overline: ['Poppins', 'sans-serif'],
+                    subtitle: ['Poppins', 'sans-serif'],
+                    body1: ['Poppins', 'sans-serif'],
+                    body2: ['Poppins', 'sans-serif'],
+                },
+                    colors: {
+                        primary: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        secondary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        accent: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        },
+                        error: {
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            200: '#fecaca',
+                            300: '#fca5a5',
+                            400: '#f87171',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            800: '#991b1b',
+                            900: '#7f1d1d',
+                        },
+                        warning: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                        },
+                        info: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        },
+                        success: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                    },
+                    boxShadow: {
+                        sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                        DEFAULT: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+                        md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                        '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                        inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
+                        none: 'none',
+                    },
+                    borderRadius: {
+                        none: '0px',
+                        sm: '0.125rem',
+                        DEFAULT: '0.25rem',
+                        md: '0.375rem',
+                        lg: '0.5rem',
+                        xl: '0.75rem',
+                        '2xl': '1rem',
+                        '3xl': '1.5rem',
+                        full: '9999px',
+                    },
+                    spacing: {
+                        px: '1px',
+                        0: '0px',
+                        0.5: '0.125rem',
+                        1: '0.25rem',
+                        1.5: '0.375rem',
+                        2: '0.5rem',
+                        2.5: '0.625rem',
+                        3: '0.75rem',
+                        3.5: '0.875rem',
+                        4: '1rem',
+                        5: '1.25rem',
+                        6: '1.5rem',
+                        7: '1.75rem',
+                        8: '2rem',
+                        9: '2.25rem',
+                        10: '2.5rem',
+                        11: '2.75rem',
+                        12: '3rem',
+                        14: '3.5rem',
+                        16: '4rem',
+                        20: '5rem',
+                        24: '6rem',
+                        28: '7rem',
+                        32: '8rem',
+                        36: '9rem',
+                        40: '10rem',
+                        44: '11rem',
+                        48: '12rem',
+                        52: '13rem',
+                        56: '14rem',
+                        60: '15rem',
+                        64: '16rem',
+                        72: '18rem',
+                        80: '20rem',
+                        96: '24rem',
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        .logo-container {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .route-btn {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        .route-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .route-btn:active {
+            transform: translateY(0);
+        }
+        .section-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .section-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .payment-method {
+            transition: all 0.3s ease;
+        }
+        .payment-method:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .animate-bounce-slow {
+            animation: bounce-slow 2s infinite;
+        }
+        @keyframes bounce-slow {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased text-gray-800">
+    <div class="container mx-auto px-4 py-8 max-w-2xl">
+        <!-- Logo Centré -->
+        <div class="flex flex-col items-center justify-center mb-12 animate__animated animate__fadeIn">
+            <div class="logo-container text-center mb-4">
+                <img src="BS INTERNATIONAL EXPRESS_plan de travail 1.png" 
+                     alt="BS International Logo" 
+                     class="h-32 w-auto mx-auto animate-bounce-slow">
+            </div>
+            <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-primary-700 mb-2">
+                BS INTERNATIONAL EXPRESS
+            </h1>
+            <p class="text-lg text-gray-600 font-medium flex items-center">
+                <span class="inline-block mr-2">Expedidiez vos colis facilement et rapidement</span>
+            </p>
+        </div>
+
+        <main class="animate__animated animate__fadeInUp">
+            <!-- Dates de départ bien visibles -->
+            <div class="grid grid-cols-2 gap-2 md:gap-6 mb-2 md:mb-4">
+                <div class="flex flex-col items-center justify-center p-1 md:p-4 bg-primary-50 rounded-xl shadow text-primary-800">
+                    <span class="text-xs md:text-sm font-medium">Date Ouagadougou → Casablanca</span>
+                    <span id="ouagadougou-date-top" class="text-sm md:text-xl font-bold"></span>
+                </div>
+                <div class="flex flex-col items-center justify-center p-1 md:p-4 bg-primary-50 rounded-xl shadow text-primary-800">
+                    <span class="text-xs md:text-sm font-medium">Date Casablanca → Ouagadougou</span>
+                    <span id="casablanca-date-top" class="text-sm md:text-xl font-bold"></span>
+                </div>
+            </div>
+
+            <!-- Boutons de sélection -->
+            <div class="grid grid-cols-2 gap-2 md:gap-6 mb-4 md:mb-8">
+                <button onclick="showRoute('ouagadougou')" 
+                        class="route-btn w-full p-2 md:p-6 bg-gradient-to-r from-red-600 to-yellow-500 rounded-xl shadow-md text-xs md:text-lg font-semibold text-white hover:from-red-700 hover:to-yellow-600 transition-all flex flex-col items-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="relative z-10 flex items-center mb-1 md:mb-2">
+                        <img src="https://flagcdn.com/w40/bf.png" 
+                             alt="Drapeau Burkina Faso" 
+                             class="h-4 w-auto md:h-6 mr-2">
+                        <span class="text-white font-bold text-xs md:text-xl">Burkina Faso</span>
+                    </div>
+                    <span class="relative z-10 text-white text-xs md:text-xl font-bold text-center">Ouagadougou → Casablanca</span>
+                    <span class="relative z-10 flex items-center justify-center gap-2 mt-1 text-primary-100 font-bold text-xs md:text-sm animate__animated animate__pulse animate__infinite">
+                        Appuyez ici
+                    </span>
+                </button>
+                <button onclick="showRoute('casablanca')" 
+                        class="route-btn w-full p-2 md:p-6 bg-gradient-to-r from-red-600 to-green-500 rounded-xl shadow-md text-xs md:text-lg font-semibold text-white hover:from-red-700 hover:to-green-600 transition-all flex flex-col items-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="relative z-10 flex items-center mb-1 md:mb-2">
+                        <img src="https://flagcdn.com/w40/ma.png" 
+                             alt="Drapeau Maroc" 
+                             class="h-4 w-auto md:h-6 mr-2">
+                        <span class="text-white font-bold text-xs md:text-xl">Maroc</span>
+                    </div>
+                    <span class="relative z-10 text-white text-xs md:text-xl font-bold text-center">Casablanca → Ouagadougou</span>
+                    <span class="relative z-10 flex items-center justify-center gap-2 mt-1 text-primary-100 font-bold text-xs md:text-sm animate__animated animate__pulse animate__infinite">
+                        Appuyez ici
+                    </span>
+                </button>
+            </div>
+            <div class="w-full flex justify-center mb-4">
+                <span class="flex items-center gap-2 text-primary-700 font-bold text-sm md:text-base bg-primary-50 px-3 py-1 rounded-full shadow animate__animated animate__pulse animate__infinite">Choisissez votre destination
+                </span>
+            </div>
+
+            <!-- Section Trajet Casablanca → Ouagadougou -->
+            <section id="casablanca-section" class="section-card bg-white rounded-xl shadow-md p-6 mb-6 hidden transform transition-all duration-500">
+                <div class="flex items-center justify-between mb-4 md:mb-6">
+                    <h2 class="text-base md:text-xl font-semibold text-secondary-800 flex items-center whitespace-nowrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Casablanca → Ouagadougou
+                    </h2>
+                    <span class="text-primary-600 font-bold text-lg px-3 py-1 bg-primary-50 rounded-full flex items-center" id="casablanca-kilos">0 kg <span class="ml-2 text-xs text-gray-600 font-normal">disponibles</span></span>
+                </div>
+                <div class="space-y-6">
+                    <div class="flex items-center text-gray-600 bg-gray-50 p-3 rounded-lg">
+                        <svg class="w-5 h-5 mr-2 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span id="casablanca-date">Date de départ: --/--/----</span>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <input type="number" 
+                                   class="flex-1 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-lg"
+                                   placeholder="Nombre de kilos"
+                                   min="1"
+                                   id="casablanca-input"
+                                   oninput="calculatePrice('casablanca')">
+                            <button onclick="reserveKilos('casablanca')" 
+                                    class="bg-primary-500 text-white px-6 py-4 rounded-lg font-medium hover:bg-primary-600 transition-colors flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Réserver
+                            </button>
+                        </div>
+                        <button onclick="select23kg('casablanca')" id="casablanca-23kg"
+                                class="w-full bg-secondary-800 text-white px-4 py-3 rounded-lg font-medium hover:bg-secondary-900 transition-colors flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                            </svg>
+                            Prendre le 23kg
+                        </button>
+                        <div id="casablanca-price" class="text-right text-xl font-bold text-primary-600 bg-primary-50 p-3 rounded-lg">
+                            Prix total: <span class="text-secondary-900">0 DH</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Trajet Ouagadougou → Casablanca -->
+            <section id="ouagadougou-section" class="section-card bg-white rounded-xl shadow-md p-6 mb-6 hidden transform transition-all duration-500">
+                <div class="flex items-center justify-between mb-4 md:mb-6">
+                    <h2 class="text-base md:text-xl font-semibold text-secondary-800 flex items-center whitespace-nowrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Ouagadougou → Casablanca
+                    </h2>
+                    <span class="text-primary-600 font-bold text-sm md:text-lg px-2 md:px-3 py-1 bg-primary-50 rounded-full flex items-center" id="ouagadougou-kilos">0 kg <span class="ml-2 text-xs text-gray-600 font-normal">disponibles</span></span>
+                </div>
+                <div class="space-y-6">
+                    <div class="flex items-center text-gray-600 bg-gray-50 p-3 rounded-lg">
+                        <svg class="w-5 h-5 mr-2 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span id="ouagadougou-date">Date de départ: --/--/----</span>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <input type="number" 
+                                   class="flex-1 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-lg"
+                                   placeholder="Nombre de kilos"
+                                   min="1"
+                                   id="ouagadougou-input"
+                                   oninput="calculatePrice('ouagadougou')">
+                            <button onclick="reserveKilos('ouagadougou')" 
+                                    class="bg-primary-500 text-white px-6 py-4 rounded-lg font-medium hover:bg-primary-600 transition-colors flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Réserver
+                            </button>
+                        </div>
+                        <button onclick="select23kg('ouagadougou')" id="ouagadougou-23kg"
+                                class="w-full bg-secondary-800 text-white px-4 py-3 rounded-lg font-medium hover:bg-secondary-900 transition-colors flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                            </svg>
+                            Prendre le 23kg
+                        </button>
+                        <div id="ouagadougou-price" class="text-right text-xl font-bold text-primary-600 bg-primary-50 p-3 rounded-lg">
+                            Prix total: <span class="text-secondary-900">0 DH</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Moyens de paiement -->
+            <section class="section-card bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-xl font-semibold text-secondary-800 mb-6 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    </svg>
+                    Moyens de paiement acceptés
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="payment-method flex items-center space-x-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <div class=" p-2 rounded-full flex items-center justify-center">
+                            <img src="cih-bank.webp" alt="CIH Bank Logo" class="h-10 w-auto" style="max-width:100px;object-fit:contain;">
+                        </div>
+                        <span class="font-medium text-gray-800">CIH Bank</span>
+                    </div>
+                    <div class="payment-method flex items-center space-x-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <div class="p-2 rounded-full flex items-center justify-center">
+                            <img src="orange-money.png" alt="Orange Money Logo" class="h-10 w-auto" style="max-width:100px;object-fit:contain;">
+                        </div>
+                        <span class="font-medium text-gray-800">Orange Money</span>
+                    </div>
+                    <div class="payment-method flex items-center space-x-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <div class=" p-2 rounded-full flex items-center justify-center">
+                            <img src="wave.png" alt="Wave Logo" class="h-10 w-auto" style="max-width:100px;object-fit:contain;">
+                        </div>
+                        <span class="font-medium text-gray-800">Wave</span>
+                    </div>
+                    <div class="payment-method flex items-center space-x-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <div class="bg-purple-100 p-2 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <span class="font-medium text-gray-800">Espèce</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-500 text-sm">
+            <div class="mb-4 max-w-xl mx-auto">
+                <p class="mb-2 text-base md:text-lg text-gray-700 font-semibold">Nous sommes une agence de logistique créée par deux jeunes étudiants Burkinabè résidant au Maroc, à Casablanca.</p>
+                <p class="mb-4 text-sm md:text-base text-gray-600">Notre local se trouve dans le quartier 1200 Logements (Avenue Lamine Gueye, Ouagadougou).</p>
+            </div>
+            <a href="https://wa.me/212625522843" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 px-6 py-3 mb-4 rounded-full bg-green-500 hover:bg-green-600 text-white font-semibold text-lg shadow-lg transition-all animate__animated animate__fadeInUp">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.52 3.48A12 12 0 0 0 3.48 20.52l-1.32 4.84a1 1 0 0 0 1.22 1.22l4.84-1.32A12 12 0 1 0 20.52 3.48zm-8.52 17a9 9 0 1 1 9-9a9 9 0 0 1-9 9zm4.29-6.71l-1.42-1.42a1 1 0 0 0-1.41 0l-2.12 2.12a1 1 0 0 1-1.41 0l-1.42-1.42a1 1 0 0 1 0-1.41l2.12-2.12a1 1 0 0 0 0-1.41l-1.42-1.42a1 1 0 0 1 0-1.41l2.12-2.12a1 1 0 0 1 1.41 0l1.42 1.42a1 1 0 0 0 1.41 0l2.12-2.12a1 1 0 0 1 1.41 0l1.42 1.42a1 1 0 0 1 0 1.41l-2.12 2.12a1 1 0 0 0 0 1.41l1.42 1.42a1 1 0 0 1 0 1.41l-2.12 2.12a1 1 0 0 1-1.41 0z"/></svg>
+                Nous contacter sur WhatsApp
+            </a>
+            <p>© 2025 BS INTERNATIONAL EXPRESS. Tous droits réservés.</p>
+            <p class="mt-1">Service de transport de colis entre le Maroc et le Burkina Faso</p>
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
