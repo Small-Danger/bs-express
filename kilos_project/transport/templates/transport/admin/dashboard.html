@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - BS INTERNATIONAL EXPRESS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div id="app" class="container mx-auto px-4 py-8">
+        <!-- En-tête -->
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-2xl font-bold text-gray-800">Administration BS INTERNATIONAL EXPRESS</h1>
+            <button @click="logout" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                Se déconnecter
+            </button>
+        </header>
+
+        <!-- Statistiques -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Total Trajets</h3>
+                <p class="text-3xl font-bold text-primary-600">${total_trajets}</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Total Réservations</h3>
+                <p class="text-3xl font-bold text-primary-600">${total_reservations}</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Réservations en attente</h3>
+                <p class="text-3xl font-bold text-yellow-600">${reservations_en_attente}</p>
+            </div>
+        </div>
+
+        <!-- Gestion des trajets -->
+        <section class="bg-white rounded-lg shadow p-6 mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-gray-800">Gestion des Trajets</h2>
+                <button @click="showNewTrajetModal = true" 
+                        class="bg-primary-600 text-white px-4 py-2 rounded hover:bg-primary-700">
+                    Nouveau Trajet
+                </button>
+            </div>
+
+            <!-- Liste des trajets -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Direction</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kilos</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prix/kg</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prix 23kg</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr v-for="trajet in trajets" :key="trajet.id">
+                            <td class="px-6 py-4 whitespace-nowrap">${trajet.direction}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${formatDate(trajet.date_depart)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${trajet.kilos_disponibles} kg</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${trajet.prix_kg} DH</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${trajet.prix_special_23kg} DH</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span :class="trajet.actif ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
+                                      class="px-2 py-1 rounded-full text-xs">
+                                    ${trajet.actif ? 'Actif' : 'Inactif'}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <button @click="editTrajet(trajet)" 
+                                        class="text-primary-600 hover:text-primary-900 mr-3">
+                                    Modifier
+                                </button>
+                                <button @click="toggleTrajetStatus(trajet)"
+                                        :class="trajet.actif ? 'text-red-600 hover:text-red-900' : 'text-green-600 hover:text-green-900'">
+                                    ${trajet.actif ? 'Désactiver' : 'Activer'}
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Gestion des réservations -->
+        <section class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-6">Gestion des Réservations</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trajet</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kilos</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prix</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr v-for="reservation in reservations" :key="reservation.id">
+                            <td class="px-6 py-4 whitespace-nowrap">#${reservation.id}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${reservation.trajet.direction}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${reservation.kilos} kg</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${reservation.prix_total} DH</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${reservation.contact_whatsapp}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span :class="getStatusClass(reservation.statut)"
+                                      class="px-2 py-1 rounded-full text-xs">
+                                    ${getStatusText(reservation.statut)}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <select @change="updateReservationStatus(reservation, $event.target.value)"
+                                        class="text-sm border rounded px-2 py-1">
+                                    <option value="en_attente" :selected="reservation.statut === 'en_attente'">En attente</option>
+                                    <option value="confirmee" :selected="reservation.statut === 'confirmee'">Confirmée</option>
+                                    <option value="annulee" :selected="reservation.statut === 'annulee'">Annulée</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Modal Nouveau Trajet -->
+        <div v-if="showNewTrajetModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="bg-white rounded-lg p-6 w-full max-w-md">
+                <h3 class="text-xl font-semibold mb-4">Nouveau Trajet</h3>
+                <form @submit.prevent="createTrajet">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Direction</label>
+                            <select v-model="newTrajet.direction" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                <option value="casablanca">Casablanca → Ouagadougou</option>
+                                <option value="ouagadougou">Ouagadougou → Casablanca</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Date de départ</label>
+                            <input type="date" v-model="newTrajet.date_depart" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Kilos disponibles</label>
+                            <input type="number" v-model="newTrajet.kilos_disponibles" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Prix par kilo (DH)</label>
+                            <input type="number" v-model="newTrajet.prix_kg" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Prix spécial 23kg (DH)</label>
+                            <input type="number" v-model="newTrajet.prix_special_23kg" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button type="button" @click="showNewTrajetModal = false"
+                                class="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-50">
+                            Annuler
+                        </button>
+                        <button type="submit"
+                                class="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700">
+                            Créer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue
+
+        createApp({
+            delimiters: ['${', '}'],
+            data() {
+                return {
+                    trajets: [],
+                    reservations: [],
+                    total_trajets: 0,
+                    total_reservations: 0,
+                    reservations_en_attente: 0,
+                    showNewTrajetModal: false,
+                    newTrajet: {
+                        direction: 'casablanca',
+                        date_depart: '',
+                        kilos_disponibles: 0,
+                        prix_kg: 0,
+                        prix_special_23kg: 0
+                    }
+                }
+            },
+            methods: {
+                async loadData() {
+                    try {
+                        const response = await axios.get('/api/admin/dashboard/')
+                        const data = response.data
+                        this.trajets = data.trajets
+                        this.reservations = data.reservations
+                        this.total_trajets = data.total_trajets
+                        this.total_reservations = data.total_reservations
+                        this.reservations_en_attente = data.reservations_en_attente
+                    } catch (error) {
+                        console.error('Erreur lors du chargement des données:', error)
+                    }
+                },
+                formatDate(date) {
+                    return new Date(date).toLocaleDateString('fr-FR')
+                },
+                getStatusClass(statut) {
+                    const classes = {
+                        'en_attente': 'bg-yellow-100 text-yellow-800',
+                        'confirmee': 'bg-green-100 text-green-800',
+                        'annulee': 'bg-red-100 text-red-800'
+                    }
+                    return classes[statut] || 'bg-gray-100 text-gray-800'
+                },
+                getStatusText(statut) {
+                    const texts = {
+                        'en_attente': 'En attente',
+                        'confirmee': 'Confirmée',
+                        'annulee': 'Annulée'
+                    }
+                    return texts[statut] || statut
+                },
+                async createTrajet() {
+                    try {
+                        await axios.post('/api/admin/trajet/creer/', this.newTrajet)
+                        this.showNewTrajetModal = false
+                        this.loadData()
+                    } catch (error) {
+                        console.error('Erreur lors de la création du trajet:', error)
+                    }
+                },
+                async updateReservationStatus(reservation, newStatus) {
+                    try {
+                        await axios.post(`/api/admin/reservation/${reservation.id}/modifier/`, {
+                            statut: newStatus
+                        })
+                        this.loadData()
+                    } catch (error) {
+                        console.error('Erreur lors de la mise à jour du statut:', error)
+                    }
+                },
+                async toggleTrajetStatus(trajet) {
+                    try {
+                        await axios.post(`/api/admin/trajet/${trajet.id}/modifier/`, {
+                            actif: !trajet.actif
+                        })
+                        this.loadData()
+                    } catch (error) {
+                        console.error('Erreur lors de la modification du trajet:', error)
+                    }
+                },
+                logout() {
+                    // Implémenter la déconnexion
+                    window.location.href = '/admin/logout/'
+                }
+            },
+            mounted() {
+                this.loadData()
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html> 
